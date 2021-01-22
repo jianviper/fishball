@@ -71,9 +71,8 @@
     },
     methods: {
       getID() {
-        let params_id = this.$route.params.id;
-        this.content = '迭代' + params_id;
-        console.log('params:' + params_id);
+        let iter_name = this.$route.params.id;
+        this.content = iter_name;
       },
       get_details(row) {
         this.dialogTableVisible = true;

@@ -9,7 +9,7 @@
         <span v-else>{{row.iter_name}}</span>
       </template>
     </el-table-column>
-    <el-table-column prop="member_name" label="负责人">
+    <el-table-column prop="member_name" label="执行人">
       <template slot-scope="{row,$index}">
         <el-input v-if="currentEdit==$index" v-model="row.member_name"></el-input>
         <span v-else>{{row.member_name}}</span>

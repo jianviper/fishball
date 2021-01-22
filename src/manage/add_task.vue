@@ -10,11 +10,15 @@
           </el-select>
         </template>
       </el-form-item>
-      <div style="display:flex">
-        <el-form-item prop="job" label="职位" style="flex: 1 0 50%">
-          <el-input v-model="task_form.job" autocomplete="off" placeholder="请输入职位"></el-input>
-        </el-form-item>
-      </div>
+      <el-form-item prop="member_name" label="执行人" :label-width="formLabelWidth">
+        <template>
+          <el-select v-model="task_form.member_name" placeholder="请选择">
+            <el-option
+              v-for="item in ops_iter" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </template>
+      </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
         <el-button @click="cancel()">取 消</el-button>

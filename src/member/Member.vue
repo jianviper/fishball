@@ -1,7 +1,7 @@
 <template>
   <!--    成员列表-->
   <el-table :data="data_member" style="width: 100%" stripe show-summary>
-    <el-table-column prop="id" label="ID" width="180" sortable>
+    <el-table-column prop="m_id" label="ID" width="180" sortable>
     </el-table-column>
     <el-table-column prop="name" label="姓名">
     </el-table-column>
@@ -26,13 +26,6 @@
         dialogTableVisible: false,
         row: null,
         data_member: [],
-        data_member1: [
-          {id: 1, name: '张三', job: '产品', number: 100},
-          {id: 2, name: '李四', job: '测试', number: 123},
-          {id: 3, name: '王五', job: '前端', number: 232},
-          {id: 4, name: '赵柳', job: '后端', number: 124},
-          {id: 5, name: '李琦', job: 'UI', number: 341},
-        ],
         reverse: true,
         activities: [{
           status: '完成',

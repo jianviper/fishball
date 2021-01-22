@@ -1,7 +1,7 @@
 <template>
   <section>
     <el-table :data="data_iter.slice((currentPage-1)*pageSize,currentPage*pageSize)" stripe style="width: 100%">
-      <el-table-column prop="id" label="ID" width="80">
+      <el-table-column prop="iter_id" label="ID" width="80">
       </el-table-column>
       <el-table-column v-if="is_link==false" prop="name" label="名称">
       </el-table-column>
@@ -9,12 +9,7 @@
         <template slot-scope="scope">
           <i class="el-icon-mouse"></i>
           <router-link class="name_link"
-                       :to="{
-                     path:'iteration/'+scope.row.id,
-                     params:{
-                         id:scope.row.id
-                         }
-                     }">
+                       :to="{path:'iteration/'+scope.row.name}">
             {{scope.row.name}}
           </router-link>
         </template>
@@ -120,7 +115,8 @@
   .name_link {
     text-decoration: none;
   }
-  .block{
+
+  .block {
     margin-top: 10px;
   }
 </style>
