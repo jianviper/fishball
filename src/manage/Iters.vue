@@ -111,7 +111,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$axios.delete('http://127.0.0.1:8001/api/delete_iter/?iter_id=' + row.id).then((response) => {
+          this.$axios.delete('http://127.0.0.1:8001/api/delete_iter/?iter_id=' + row.iter_id).then((response) => {
             this.get_iters();
             this.$message({
               type: 'success',

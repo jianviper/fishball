@@ -1,7 +1,7 @@
 <template>
   <!--    成员列表-->
   <el-table :data="data_member" style="width: 100%" stripe>
-    <el-table-column prop="m_id" label="ID" width="180" sortable>
+    <el-table-column prop="member_id" label="ID" width="180" sortable>
     </el-table-column>
     <el-table-column prop="name" label="姓名">
       <template slot-scope="{row,$index}">
@@ -72,7 +72,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$axios.delete('http://127.0.0.1:8001/api/delete_member/?m_id=' + row.m_id).then((response) => {
+          this.$axios.delete('http://127.0.0.1:8001/api/delete_member/?member_id=' + row.member_id).then((response) => {
             this.get_member();
             this.$message({
               type: 'success',

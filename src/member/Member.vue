@@ -1,7 +1,7 @@
 <template>
   <!--    成员列表-->
   <el-table :data="data_member" style="width: 100%" stripe show-summary>
-    <el-table-column prop="m_id" label="ID" width="180" sortable>
+    <el-table-column prop="member_id" label="ID" width="180" sortable>
     </el-table-column>
     <el-table-column prop="name" label="姓名">
     </el-table-column>
