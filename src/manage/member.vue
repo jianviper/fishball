@@ -49,7 +49,7 @@
         console.log(row.name);
       },
       get_member() {
-        this.$axios.get('http://127.0.0.1:8001/api/member').then((response) => {
+        this.$axios.get('http://192.168.105.132:8001/api/member').then((response) => {
           console.log(response.data);
           this.data_member = response.data;
         })
@@ -61,7 +61,7 @@
       },
       finishEditClick(index, row) {
         console.log(index, row);
-        this.$axios.post('http://127.0.0.1:8001/api/update_member', row).then((response) => {
+        this.$axios.post('http://192.168.105.132:8001/api/update_member', row).then((response) => {
           this.currentEdit = -1;
         })
       },
@@ -72,7 +72,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$axios.delete('http://127.0.0.1:8001/api/delete_member/?member_id=' + row.member_id).then((response) => {
+          this.$axios.delete('http://192.168.105.132:8001/api/delete_member/?member_id=' + row.member_id).then((response) => {
             this.get_member();
             this.$message({
               type: 'success',
@@ -93,7 +93,7 @@
       },
     },
     mounted() {
-      this.get_member();
+      // this.get_member();
     }
   }
 </script>

@@ -5,6 +5,7 @@ import iterations from '@/iteration/Iterations'
 import iteration from '@/iteration/Iteration'
 import member from '@/member/Member'
 import manage from '@/manage/manage'
+import baidu from '@/baiduzhishu/baiduzhishu'
 
 Vue.use(Router)
 
@@ -35,5 +36,10 @@ export default new Router({
       name: manage,
       component: manage
     },
+    {
+      path: '/baiduzhishu',
+      name, baidu,
+      component: baidu,
+    }
   ]
 })

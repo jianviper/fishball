@@ -13,7 +13,7 @@
       <el-table-column prop="start_date" label="开始时间">
         <template slot-scope="{row,$index}">
           <el-date-picker class="date_picker" v-if="currentEdit==$index" v-model="row.start_date" type="date"
-                          placeholder="选择日期" value-format="yyyy-MM-dd[T]HH:mm:ss">
+                          placeholder="选择日期" value-format="yyyy-MM-dd">
           </el-date-picker>
           <p v-else>{{row.start_date.split('T')[0]}}</p>
         </template>
@@ -21,7 +21,7 @@
       <el-table-column prop="end_date" label="结束时间">
         <template slot-scope="{row,$index}">
           <el-date-picker class="date_picker" v-if="currentEdit==$index" v-model="row.end_date" type="date"
-                          placeholder="选择日期" value-format="yyyy-MM-dd[T]HH:mm:ss">
+                          placeholder="选择日期" value-format="yyyy-MM-dd">
           </el-date-picker>
           <p v-else>{{row.end_date.split('T')[0]}}</p>
         </template>
@@ -98,9 +98,9 @@
         this.data_temp = row;
         // this.value = row.status;
       },
-      finishEditClick(index, row) {
+      finishEditClick(index, row) { //更新迭代数据
         console.log(index, row);
-        this.$axios.post('http://127.0.0.1:8001/api/update_iter', row).then((response) => {
+        this.$axios.put('http://192.168.105.132:8001/api/update_iter', row).then((response) => {
           this.currentEdit = -1;
         })
       },
@@ -111,7 +111,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$axios.delete('http://127.0.0.1:8001/api/delete_iter/?iter_id=' + row.iter_id).then((response) => {
+          this.$axios.delete('http://192.168.105.132:8001/api/delete_iter/?iter_id=' + row.iter_id).then((response) => {
             this.get_iters();
             this.$message({
               type: 'success',
@@ -131,8 +131,7 @@
         });
       },
       get_iters() {
-        this.$axios.get('http://127.0.0.1:8001/api/iters').then((response) => {
-          console.log('执行');
+        this.$axios.get('http://192.168.105.132:8001/api/iters').then((response) => {
           console.log(response.data);
           this.data_iter = response.data;
         })

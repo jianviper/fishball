@@ -9,19 +9,19 @@
         <template slot-scope="scope">
           <i class="el-icon-mouse"></i>
           <router-link class="name_link"
-                       :to="{path:'iteration/'+scope.row.name}">
-            {{scope.row.name}}
+                       :to="{path:'iteration/'+scope.row.name+'&'+scope.row.iter_id}">
+            {{ scope.row.name }}
           </router-link>
         </template>
       </el-table-column>
       <el-table-column prop="start_date" label="开始时间" width="150">
         <template slot-scope="scope">
-          {{scope.row.start_date.split('T')[0]}}
+          {{ scope.row.start_date }}
         </template>
       </el-table-column>
       <el-table-column prop="end_date" label="结束时间" width="150">
         <template slot-scope="scope">
-          {{scope.row.end_date.split('T')[0]}}
+          {{ scope.row.end_date }}
         </template>
       </el-table-column>
       <el-table-column prop="stage" label="阶段" width="150">
@@ -58,65 +58,66 @@
 </template>
 
 <script>
-  export default {
-    name: "iterations",
-    data() {
-      return {
-        currentEdit: -1,
-        number: 100,
-        data_iter: [],
-        currentPage: 1, // 当前页码
-        total: 20, // 总条数
-        pageSize: 10 // 每页的数据条数
-      }
-    },
-    methods: {
-      get_iters() {
-        this.$axios.get('http://127.0.0.1:8001/api/iters').then((response) => {
-          console.log(response.data);
-          this.data_iter = response.data;
-        }).catch((error) => {
-          console.log(error);
-        })
-      },
-      handleEdit(index, row) {
-        console.log(index, row);
-        this.currentEdit = index;
-      },
-      finishEditClick(scope) {
-        console.log(scope);
-        this.currentEdit = -1;
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
-      },
-      //每页条数改变时触发 选择一页显示多少行
-      handleSizeChange(val) {
-        console.log('每页 ${val} 条');
-        this.currentPage = 1;
-        this.pageSize = val;
-      },
-      //当前页改变时触发 跳转其他页
-      handleCurrentChange(val) {
-        console.log('当前页: ${val}');
-        this.currentPage = val;
-      }
-    },
-    props: [
-      'is_link', 'is_edit'
-    ],
-    mounted() {
-      this.get_iters();
+export default {
+  name: "iterations",
+  data() {
+    return {
+      currentEdit: -1,
+      number: 100,
+      data_iter: [],
+      currentPage: 1, // 当前页码
+      total: 20, // 总条数
+      pageSize: 10 // 每页的数据条数
     }
+  },
+  methods: {
+    get_iters() {
+
+      this.$axios.get('http://192.168.105.132:8001/api/iters').then((response) => {
+        console.log(response.data);
+        this.data_iter = response.data;
+      }).catch((error) => {
+        console.log(error);
+      })
+    },
+    handleEdit(index, row) {
+      console.log(index, row);
+      this.currentEdit = index;
+    },
+    finishEditClick(scope) {
+      console.log(scope);
+      this.currentEdit = -1;
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
+    },
+    //每页条数改变时触发 选择一页显示多少行
+    handleSizeChange(val) {
+      console.log('每页 ${val} 条');
+      this.currentPage = 1;
+      this.pageSize = val;
+    },
+    //当前页改变时触发 跳转其他页
+    handleCurrentChange(val) {
+      console.log('当前页: ${val}');
+      this.currentPage = val;
+    }
+  },
+  props: [
+    'is_link', 'is_edit'
+  ],
+  mounted() {
+    this.get_iters();
   }
+}
 </script>
 
 <style scoped>
-  .name_link {
-    text-decoration: none;
-  }
+.name_link {
+  text-decoration: none;
+}
 
-  .block {
-    margin-top: 10px;
-  }
+.block {
+  margin-top: 10px;
+}
 </style>

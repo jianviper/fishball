@@ -5,16 +5,16 @@
       <el-table-column prop="task_id" label="ID" width="80" sortable>
       </el-table-column>
       <el-table-column prop="iter_name" label="迭代名称">
-        <template slot-scope="{row,$index}">
-          <el-input v-if="currentEdit==$index" v-model="row.iter_name"></el-input>
-          <span v-else>{{ row.iter_name }}</span>
-        </template>
+        <!--        <template slot-scope="{row,$index}">-->
+        <!--          <el-input v-if="currentEdit==$index" v-model="row.iter_name"></el-input>-->
+        <!--          <span v-else>{{ row.iter_name }}</span>-->
+        <!--        </template>-->
       </el-table-column>
       <el-table-column prop="member_name" label="执行人">
-        <template slot-scope="{row,$index}">
-          <el-input v-if="currentEdit==$index" v-model="row.member_name"></el-input>
-          <span v-else>{{ row.member_name }}</span>
-        </template>
+        <!--        <template slot-scope="{row,$index}">-->
+        <!--          <el-input v-if="currentEdit==$index" v-model="row.member_name"></el-input>-->
+        <!--          <span v-else>{{ row.member_name }}</span>-->
+        <!--        </template>-->
       </el-table-column>
       <el-table-column prop="task_detail" label="任务" width="500">
         <template slot-scope="{row,$index}">
@@ -31,13 +31,13 @@
           <el-button type="text" size="small" @click="finishEditClick($index,row)" v-if="currentEdit === $index">完成
           </el-button>
           <el-button type="text" size="small" @click="handleEdit($index, row)" v-else>编辑</el-button>
-          <el-button size="small" type="success " @click="handleComplete($index, row)">完成</el-button>
+          <el-button size="small" type="success " @click="handleComplete($index, row)">结算</el-button>
           <el-button size="small" type="danger" @click="handleDelete($index, row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-dialog title="完成任务" :visible.sync="completeVisible" width="600px" @close="close_complete()">
-      <el-radio-group v-model="radio">
+      <el-radio-group v-model="radio" @change="rad">
         <el-radio label=1>完成</el-radio>
         <el-radio label=0>未完成</el-radio>
       </el-radio-group>
@@ -62,8 +62,11 @@ export default {
     }
   },
   methods: {
+    rad() {
+      console.log(this.radio);
+    },
     get_task() {
-      this.$axios.get('http://127.0.0.1:8001/api/task').then((response) => {
+      this.$axios.get('http://192.168.105.132:8001/api/task').then((response) => {
         console.log(response.data);
         this.data_task = response.data;
       })
@@ -75,7 +78,8 @@ export default {
     },
     finishEditClick(index, row) {
       console.log(index, row);
-      this.$axios.post('http://127.0.0.1:8001/api/update_task', row).then((response) => {
+      let params = {task_id: row.task_id, task_detail: row.task_detail};
+      this.$axios.patch('http://192.168.105.132:8001/api/update_task', params).then((response) => {
         this.currentEdit = -1;
       })
     },
@@ -86,7 +90,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$axios.delete('http://127.0.0.1:8001/api/delete_task/?task_id=' + row.task_id).then((response) => {
+        this.$axios.delete('http://192.168.105.132:8001/api/delete_task/?task_id=' + row.task_id).then((response) => {
           this.get_task();
           this.$message({
             type: 'success',
@@ -108,24 +112,24 @@ export default {
     handleComplete(index, row) { //点击 完成 打开弹窗
       this.completeVisible = true;
       this.row = row;
+      this.radio = row.status.toString();
       console.log(this.row);
     },
     close_complete() {
       this.completeVisible = false;
     },
     taskComplete() { //点击 确定
-      console.log(this.radio);
-      this.row.status = parseInt(this.radio);
-      this.completeVisible = false;
-      this.$axios.get(
-        'http://127.0.0.1:8001/api/complete_task/?task_id=' + this.row.task_id + '&status=' + this.row.status)
-        .then((response) => {
-          console.log(response.data);
-        })
+      let url_params = this.row.task_id + '&status=' + this.radio + '&member_id=' + this.row.member_id
+      this.$axios.get('http://192.168.105.132:8001/api/complete_task/?task_id=' + url_params).then((response) => {
+        console.log(response.data.data);
+        this.row.status = parseInt(this.radio);
+        this.completeVisible = false;
+        this.data_task = response.data.data;
+      })
     },
   },
   mounted() {
-    this.get_task();
+    // this.get_task();
   }
 }
 </script>

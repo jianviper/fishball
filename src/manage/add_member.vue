@@ -31,7 +31,7 @@
       add_submit(data) {
         console.log(data);
         this.dialogVisible = false;
-        this.$axios.post('http://localhost:8001/api/add_member', data).then((response) => {
+        this.$axios.post('http://192.168.105.132:8001/api/add_member', data).then((response) => {
           console.log(response.data);
           this.$emit('emit_member');
         })

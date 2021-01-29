@@ -29,7 +29,7 @@
       <div style="display: flex">
         <el-form-item prop="task_date" label="任务日期" style="flex: 1 0 50%">
           <el-date-picker class="date_picker" v-model="task_form.task_date" type="date" placeholder="选择日期"
-                          value-format="yyyy-MM-dd HH:mm:ss">
+                          value-format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>
         <el-form-item prop="target_num" label="奖励数" :label-width="formLabelWidth">
@@ -51,7 +51,7 @@ export default {
     return {
       dialogVisible: false,
       formLabelWidth: '120px',
-      task_form: {'task_detail': '1.\r\n2.\r\n3.\r\n'},
+      task_form: {},
       ops_iter: [],//下拉列表-迭代
       ops_member: [],//下拉列表-成员
       value_iter: '',
@@ -62,10 +62,10 @@ export default {
     add_submit(data) {
       console.log(data);
       this.dialogVisible = false;
-      this.$axios.post('http://localhost:8001/api/add_task', data).then((response) => {
+      this.$axios.post('http://192.168.105.132:8001/api/add_task', data).then((response) => {
         console.log(response.data);
         this.$emit('emit_task');
-        this.task_form = {'task_detail': '1.\r\n2.\r\n3.\r\n'};
+        this.task_form = {};
       })
     },
     change_dialog() {
@@ -79,8 +79,9 @@ export default {
       this.$refs.task_form.resetFields();
     },
     get_iter_info() { //获取迭代信息
-      this.$axios.get('http://localhost:8001/api/iters').then((response) => {
+      this.$axios.get('http://192.168.105.132:8001/api/iters').then((response) => {
         console.log('iter_info');
+        this.ops_iter = [];
         response.data.map((value, index) => {
           // console.log(index, value.iter_id, value.name);
           this.ops_iter.push({value: value.iter_id, label: value.name});
@@ -89,8 +90,9 @@ export default {
       })
     },
     get_member_info() { //获取迭代信息
-      this.$axios.get('http://localhost:8001/api/member').then((response) => {
+      this.$axios.get('http://192.168.105.132:8001/api/member').then((response) => {
         console.log('member_info');
+        this.ops_member = [];
         response.data.map((value, index) => {
           // console.log(index, value.iter_id, value.name);
           this.ops_member.push({value: value.member_id, label: value.name});
@@ -108,8 +110,8 @@ export default {
     },
   },
   mounted() {
-    this.get_iter_info();
-    this.get_member_info();
+    // this.get_iter_info();
+    // this.get_member_info();
   }
 }
 </script>

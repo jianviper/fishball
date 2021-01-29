@@ -88,7 +88,7 @@
       'is_link', 'is_edit'
     ],
     created() {
-      this.$axios.get('http://localhost:8000/api/iters').then((response) => {
+      this.$axios.get('http://192.168.105.132:8000/api/iters').then((response) => {
         console.log(response.data);
         this.data_iter = response.data;
       })

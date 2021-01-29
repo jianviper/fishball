@@ -20,75 +20,80 @@
 </template>
 
 <script>
-  import iters from './Iters';
-  import add_iter from './add_iter'
-  import member from './member'
-  import add_member from "./add_member";
-  import task from './task'
-  import add_task from './add_task'
+import iters from './Iters';
+import add_iter from './add_iter'
+import member from './member'
+import add_member from "./add_member";
+import task from './task'
+import add_task from './add_task'
 
-  export default {
-    name: "manage",
-    components: {
-      iters, add_iter, member, add_member, task, add_task,
-    },
-    data() {
-      return {
-        activeName: 'first',
-        btn_name: '+创建迭代',
-      };
-    },
-    methods: {
-      handleClick(tab) {
-        console.log(tab.index);
-        let addbtn = document.getElementsByClassName('el-tabs__new-tab')[0];
-        if (tab.index == 0) {
-          addbtn.innerText = '+创建迭代';
-          addbtn.onclick = this.dialog_add_iter;
-        } else if (tab.index == 1) {
-          addbtn.innerText = '+添加任务';
-          addbtn.onclick = this.dialog_add_task;
-        } else if (tab.index == 2) {
-          addbtn.innerText = '+添加成员';
-          addbtn.onclick = this.dialog_add_member;
-        }
-      },
-      dialog_add_iter() {
-        this.$refs.add_iter.change_dialog();
-      },
-      dialog_add_task() {
-        this.$refs.add_task.change_dialog();
-      },
-      dialog_add_member() {
-        this.$refs.add_member.change_dialog();
-      },
-      iter_init() {
+export default {
+  name: "manage",
+  components: {
+    iters, add_iter, member, add_member, task, add_task,
+  },
+  data() {
+    return {
+      activeName: 'first',
+      btn_name: '+创建迭代',
+    };
+  },
+  methods: {
+    handleClick(tab) {
+      console.log(tab.index);
+      let addbtn = document.getElementsByClassName('el-tabs__new-tab')[0];
+      if (tab.index == 0) {
+        addbtn.innerText = '+创建迭代';
+        addbtn.onclick = this.dialog_add_iter;
         this.$refs.iters.get_iters();
-      },
-      member_init() {
-        this.$refs.member.get_member();
-      },
-      task_init(){
+      } else if (tab.index == 1) {
+        addbtn.innerText = '+添加任务';
+        addbtn.onclick = this.dialog_add_task;
         this.$refs.task.get_task();
+      } else if (tab.index == 2) {
+        addbtn.innerText = '+添加成员';
+        addbtn.onclick = this.dialog_add_member;
+        this.$refs.member.get_member();
       }
     },
-    mounted() {
-      let addbtn = document.getElementsByClassName('el-tabs__new-tab')[0];
-      addbtn.innerText = this.btn_name;
-      addbtn.style.width = '100px';
-      addbtn.style.height = '30px';
-      addbtn.style.marginTop = '0px';
-      addbtn.style.lineHeight = '30px';
-      addbtn.style.backgroundColor = 'black';
-      addbtn.style.fontSize = 'medium';
-      addbtn.onclick = this.dialog_add_iter;
+    dialog_add_iter() { //调用子组件方法
+      this.$refs.add_iter.change_dialog();
+    },
+    dialog_add_task() {
+      this.$refs.add_task.change_dialog();
+      this.$refs.add_task.get_iter_info();
+      this.$refs.add_task.get_member_info();
+    },
+    dialog_add_member() {
+      this.$refs.add_member.change_dialog();
+    },
+    iter_init() {
+      this.$refs.iters.get_iters();
+    },
+    member_init() {
+      this.$refs.member.get_member();
+    },
+    task_init() {
+      this.$refs.task.get_task();
     }
+  },
+  mounted() {
+    let addbtn = document.getElementsByClassName('el-tabs__new-tab')[0];
+    addbtn.innerText = this.btn_name;
+    addbtn.style.width = '100px';
+    addbtn.style.height = '30px';
+    addbtn.style.marginTop = '0px';
+    addbtn.style.lineHeight = '30px';
+    addbtn.style.backgroundColor = 'black';
+    addbtn.style.fontSize = 'medium';
+    addbtn.onclick = this.dialog_add_iter;
   }
+}
 </script>
 
 <style scoped>
-  .hh {
-    margin: 0;
-    margin-bottom: 10px;
-  }
+.hh {
+  margin: 0;
+  margin-bottom: 10px;
+}
 </style>

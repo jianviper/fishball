@@ -7,12 +7,12 @@
       <div style="display:flex">
         <el-form-item prop="start_date" label="开始时间" style="flex: 1 0 50%">
           <el-date-picker class="date_picker" v-model="iter_form.start_date" type="date" placeholder="选择日期"
-                          value-format="yyyy-MM-dd HH:mm:ss">
+                          value-format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>
         <el-form-item prop="end_date" label="结束时间">
           <el-date-picker class="date_picker" v-model="iter_form.end_date" type="date" placeholder="选择日期"
-                          value-format="yyyy-MM-dd HH:mm:ss">
+                          value-format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>
       </div>
@@ -28,36 +28,36 @@
 </template>
 
 <script>
-  export default {
-    name: "add_iter",
-    data() {
-      return {
-        dialogVisible: false,
-        formLabelWidth: '120px',
-        iter_form: {},
-      }
+export default {
+  name: "add_iter",
+  data() {
+    return {
+      dialogVisible: false,
+      formLabelWidth: '120px',
+      iter_form: {},
+    }
+  },
+  methods: {
+    add_submit(data) {
+      console.log(data);
+      this.dialogVisible = false;
+      this.$axios.post('http://192.168.105.132:8001/api/add_iter', data).then((response) => {
+        console.log(response.data.data);
+        this.$emit('emit_iter');
+      })
     },
-    methods: {
-      add_submit(data) {
-        console.log(data);
-        this.dialogVisible = false;
-        this.$axios.post('http://localhost:8001/api/add_iter', data).then((response) => {
-          console.log(response.data);
-          this.$emit('emit_iter');
-        })
-      },
-      change_dialog() {
-        this.dialogVisible = true;
-      },
-      cancel() {
-        this.dialogVisible = false;
-        this.$refs.iter_form.resetFields();
-      },
-      close_dialog() {
-        this.$refs.iter_form.resetFields();
-      }
+    change_dialog() {
+      this.dialogVisible = true;
+    },
+    cancel() {
+      this.dialogVisible = false;
+      this.$refs.iter_form.resetFields();
+    },
+    close_dialog() {
+      this.$refs.iter_form.resetFields();
     }
   }
+}
 </script>
 
 <style scoped>

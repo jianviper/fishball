@@ -5,51 +5,61 @@
                :close-on-press-escape="false">
       <el-form :model="form_data" label-position="top">
         <el-form-item label="用户名" :label-width="formLabelWidth">
-          <el-input v-model="form_data.name" autocomplete="off" placeholder="请输入用户名"></el-input>
+          <el-input v-model="form_data.username" autocomplete="off" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item label="密码" :label-width="formLabelWidth">
           <el-input type="password" v-model="form_data.password" autocomplete="off"></el-input>
         </el-form-item>
+        <span v-if="isShow" class="el-message-box__errormsg">账号或密码错误</span>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-input type="text" style="display: none;" disabled autocomplete="off"></el-input>
         <el-input type="password" style="display: none;" disabled autocomplete="off"></el-input>
         <el-button @click="cancel()">取 消</el-button>
-        <el-button type="primary" @click="login()">确 定</el-button>
+        <el-button type="primary" @click="login(form_data)">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "login_dialog",
-    data() {
-      return {
-        dialogVisible: false,
-        formLabelWidth: '120px',
-        form_data: {
-          name: '',
-          password: ''
-        }
-      }
+export default {
+  name: "login_dialog",
+  data() {
+    return {
+      dialogVisible: false,
+      formLabelWidth: '120px',
+      form_data: {},
+      isShow: false,
     }
-    ,
-    methods: {
-      cancel() {
-        this.dialogVisible = false;
-        this.form_data.name = '';
-        this.form_data.password = '';
-      },
-      login() {
-        this.dialogVisible = false;
-        this.$router.push({path: '/manage'});
-      },
-      change_dialog() {
-        this.dialogVisible = true;
-      }
+  },
+  methods: {
+    cancel() {
+      this.dialogVisible = false;
+      this.form_data = {};
+      this.isShow = false;
     },
-  }
+    login(data) {
+      console.log(data);
+      this.$axios.post('http://192.168.105.132:8001/api/login', data).then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          this.$message({
+            message: '登录成功',
+            type: "success"
+          });
+          this.dialogVisible = false;
+          this.$router.push({path: '/manage'});
+        } else {
+          this.isShow = true;
+        }
+      })
+    },
+    change_dialog() {
+      this.dialogVisible = true;
+    }
+  },
+}
 </script>
 
 <style scoped>

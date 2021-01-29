@@ -13,23 +13,23 @@
 </template>
 
 <script>
-  import NavMenu from './components/NavMenu';
+import NavMenu from './components/NavMenu';
 
-  export default {
-    name: 'App',
-    components: {
-      NavMenu
-    },
-  }
+export default {
+  name: 'App',
+  components: {
+    NavMenu
+  },
+}
 </script>
 
 <style>
-  body {
-    padding: 0px;
-    margin: 0px;
-  }
+body {
+  padding: 0px;
+  margin: 0px;
+}
 
-  .el-header {
-    padding: 0px;
-  }
+.el-header {
+  padding: 0px !important;
+}
 </style>
