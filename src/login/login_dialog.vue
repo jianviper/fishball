@@ -3,11 +3,11 @@
     <el-dialog title="登录验证" :visible.sync="dialogVisible" center @close="cancel()" width="400px"
                :close-on-click-modal="false"
                :close-on-press-escape="false">
-      <el-form :model="form_data" label-position="top">
-        <el-form-item label="用户名" :label-width="formLabelWidth">
+      <el-form :model="form_data" label-position="top" :rules="rules" ref="form_data">
+        <el-form-item label="用户名" prop="username" :label-width="formLabelWidth">
           <el-input v-model="form_data.username" autocomplete="off" placeholder="请输入用户名"></el-input>
         </el-form-item>
-        <el-form-item label="密码" :label-width="formLabelWidth">
+        <el-form-item label="密码" prop="password" :label-width="formLabelWidth">
           <el-input type="password" v-model="form_data.password" autocomplete="off"></el-input>
         </el-form-item>
         <span v-if="isShow" class="el-message-box__errormsg">账号或密码错误</span>
@@ -31,27 +31,41 @@ export default {
       formLabelWidth: '120px',
       form_data: {},
       isShow: false,
+      rules: {
+        username: [
+          {required: true, message: '请输入用户名', trigger: 'blur'},
+        ],
+        password: [
+          {required: true, message: '请输入密码', trigger: 'blur'},
+        ]
+      }
     }
   },
   methods: {
     cancel() {
       this.dialogVisible = false;
-      this.form_data = {};
-      this.isShow = false;
+      // this.form_data = {};
+      this.$nextTick(() => {
+        this.$refs['form_data'].resetFields();
+        this.isShow = false;
+      })
     },
     login(data) {
       console.log(data);
-      this.$axios.post('http://192.168.105.132:8001/api/login', data).then((response) => {
-        console.log(response.data);
-        if (response.data.code == 200) {
-          this.$message({
-            message: '登录成功',
-            type: "success"
-          });
-          this.dialogVisible = false;
-          this.$router.push({path: '/manage'});
+      this.$refs['form_data'].validate((vaild) => {
+        if (vaild) {
+          this.$axios.post('http://192.168.105.132:8001/api/login', data).then((response) => {
+            console.log(response.data);
+            if (response.data.code == 200) {
+              this.$message.success('登录成功');
+              this.dialogVisible = false;
+              this.$router.push({path: '/manage'});
+            } else {
+              this.isShow = true;
+            }
+          })
         } else {
-          this.isShow = true;
+          return false;
         }
       })
     },

@@ -18,7 +18,8 @@
       </el-table-column>
       <el-table-column prop="task_detail" label="任务" width="500">
         <template slot-scope="{row,$index}">
-          <el-input v-if="currentEdit==$index" v-model="row.task_detail" type="textarea"></el-input>
+          <el-input v-if="currentEdit==$index" v-model="row.task_detail" type="textarea"
+                    @change="watch_change"></el-input>
           <span v-else>{{ row.task_detail }}</span>
         </template>
       </el-table-column>
@@ -59,9 +60,13 @@ export default {
       data_task: [],
       reverse: true,
       row: '', //行数据
+      changed: false,
     }
   },
   methods: {
+    watch_change() { //监控有没有修改
+      this.changed = true;
+    },
     rad() {
       console.log(this.radio);
     },
@@ -76,12 +81,22 @@ export default {
       this.currentEdit = index;
       this.value = row.status;
     },
-    finishEditClick(index, row) {
+    finishEditClick(index, row) { //完成编辑
       console.log(index, row);
-      let params = {task_id: row.task_id, task_detail: row.task_detail};
-      this.$axios.patch('http://192.168.105.132:8001/api/update_task', params).then((response) => {
+      if (this.changed) { //有修改才提交接口
+        if (row.task_detail) {
+          let params = {task_id: row.task_id, task_detail: row.task_detail};
+          this.$axios.patch('http://192.168.105.132:8001/api/update_task', params).then((response) => {
+            this.currentEdit = -1;
+            this.changed = false;
+            this.$message.success('更新成功');
+          })
+        } else {
+          this.$message.warning('请填写必要信息');
+        }
+      } else {
         this.currentEdit = -1;
-      })
+      }
     },
     handleDelete(index, row) {
       console.log(index, row);
@@ -97,16 +112,10 @@ export default {
             message: '删除成功!'
           });
         }).catch(() => {
-          this.$message({
-            type: 'warning',
-            message: '删除失败'
-          });
+          this.$message.warning('删除失败');
         })
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
+        this.$message.info('已取消删除');
       });
     },
     handleComplete(index, row) { //点击 完成 打开弹窗

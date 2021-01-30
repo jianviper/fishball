@@ -19,7 +19,7 @@
           class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small"
           @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
         </el-input>
-        <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 回车添加</el-button>
+        <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加</el-button>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import login_dialog from './login_dialog'
+import login_dialog from '../login/login_dialog'
 
 export default {
   name: "NavMenu",
@@ -67,6 +67,8 @@ export default {
         return '2';
       } else if (url == 'member') {
         return '3';
+      } else if (url == 'baiduzhishu') {
+        return '4';
       } else if (url == 'manage') {
         return '0';
       }

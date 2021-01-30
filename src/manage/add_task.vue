@@ -1,6 +1,6 @@
 <template>
   <el-dialog title="添加任务" :visible.sync="dialogVisible" width="600px" @close="close_dialog()">
-    <el-form :model="task_form" label-position="top" ref="task_form">
+    <el-form :model="task_form" label-position="top" ref="task_form" :rules="rules">
       <div style="display: flex">
         <el-form-item prop="iter_name" label="迭代名称" :label-width="formLabelWidth" style="flex: 1 0 50%">
           <template>
@@ -33,7 +33,8 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item prop="target_num" label="奖励数" :label-width="formLabelWidth">
-          <el-input v-model="task_form.target_num" autocomplete="off" placeholder="请输入奖励数" maxlength=3></el-input>
+          <el-input type="number" v-model.number="task_form.target_num" autocomplete="off" placeholder="请输入奖励数"
+                    maxlength=3></el-input>
         </el-form-item>
       </div>
     </el-form>
@@ -56,16 +57,41 @@ export default {
       ops_member: [],//下拉列表-成员
       value_iter: '',
       value_member: '',
+      rules: {
+        iter_name: [
+          {required: true, message: '请选择一个迭代', trigger: 'change'},
+        ],
+        member_name: [
+          {required: true, message: '请选择一个执行人', trigger: 'change'},
+        ],
+        task_detail: [
+          {required: true, message: '请输入任务目标', trigger: 'blur'},
+        ],
+        task_date: [
+          {required: true, message: '请选择日期', trigger: 'change'},
+        ],
+        target_num: [
+          {required: true, message: '请输入奖励数', trigger: 'blur'},
+          {type: 'number', message: '数量必须为数字', trigger: "blur"}
+        ]
+      }
     }
   },
   methods: {
     add_submit(data) {
       console.log(data);
-      this.dialogVisible = false;
-      this.$axios.post('http://192.168.105.132:8001/api/add_task', data).then((response) => {
-        console.log(response.data);
-        this.$emit('emit_task');
-        this.task_form = {};
+      // data.target_num = parseInt(data.target_num);
+      this.$refs['task_form'].validate((valid) => {
+        if (valid) {
+          this.$axios.post('http://192.168.105.132:8001/api/add_task', data).then((response) => {
+            console.log(response.data);
+            this.$message.success('添加成功');
+            this.dialogVisible = false;
+            this.$emit('emit_task');
+          })
+        } else {
+          return false;
+        }
       })
     },
     change_dialog() {
