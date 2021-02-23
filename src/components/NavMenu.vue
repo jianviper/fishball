@@ -50,13 +50,7 @@ export default {
     },
     cancel() {
       this.dialogFormVisible = false;
-      this.iter_form.name = '';
-      this.iter_form.password = '';
-    },
-    login(form_data) {
-      console.log(form_data.name, form_data.password);
-      this.dialogFormVisible = false;
-      this.$router.push({path: '/manage'});
+      this.iter_form = {name: '', password: ''};
     },
     change_index() {
       let url = this.$route.path.split('/')[1];

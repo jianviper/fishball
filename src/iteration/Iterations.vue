@@ -7,10 +7,9 @@
       </el-table-column>
       <el-table-column v-else prop="name" label="名称">
         <template slot-scope="scope">
-          <i class="el-icon-mouse"></i>
           <router-link class="name_link"
                        :to="{path:'iteration/'+scope.row.name+'&'+scope.row.iter_id}">
-            {{ scope.row.name }}
+            <i class="el-icon-mouse"></i>{{ scope.row.name }}
           </router-link>
         </template>
       </el-table-column>
@@ -115,9 +114,18 @@ export default {
 <style scoped>
 .name_link {
   text-decoration: none;
+  display: block;
+}
+
+.name_link:hover {
+  color: blue;
+  transition: all 0.4s; /*所有属性变化在0.4秒内执行动画*/
+  -webkit-transform: translate(20px) scale(1.1);
+  transform: translate(20px) scale(1.1); /*鼠标放上之后元素变成1.4倍大小*/
 }
 
 .block {
   margin-top: 10px;
 }
+
 </style>

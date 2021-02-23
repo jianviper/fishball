@@ -8,7 +8,8 @@
           <el-input v-model="form_data.username" autocomplete="off" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password" :label-width="formLabelWidth">
-          <el-input type="password" v-model="form_data.password" autocomplete="off"></el-input>
+          <el-input type="password" v-model="form_data.password" autocomplete="off"
+                    @keyup.enter.native="login(form_data)"></el-input>
         </el-form-item>
         <span v-if="isShow" class="el-message-box__errormsg">账号或密码错误</span>
       </el-form>
@@ -33,10 +34,10 @@ export default {
       isShow: false,
       rules: {
         username: [
-          {required: true, message: '请输入用户名', trigger: 'blur'},
+          {required: true, message: '请输入用户名', trigger: ['blur', 'change']},
         ],
         password: [
-          {required: true, message: '请输入密码', trigger: 'blur'},
+          {required: true, message: '请输入密码', trigger: ['blur', 'change']},
         ]
       }
     }
@@ -71,6 +72,7 @@ export default {
     },
     change_dialog() {
       this.dialogVisible = true;
+      // this.$refs['form_data'].resetFields();
     }
   },
 }

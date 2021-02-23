@@ -2,7 +2,7 @@
   <el-dialog title="创建迭代" :visible.sync="dialogVisible" width="560px" @close="close_dialog()">
     <el-form :model="iter_form" label-position="top" ref="iter_form" :rules="rules">
       <el-form-item prop="name" label="名称" :label-width="formLabelWidth">
-        <el-input v-model="iter_form.name" autocomplete="off" placeholder="请输入用户名"></el-input>
+        <el-input v-model="iter_form.name" autocomplete="off" placeholder="请输入迭代名称"></el-input>
       </el-form-item>
       <div style="display:flex">
         <el-form-item prop="start_date" label="开始时间" style="flex: 1 0 50%">
@@ -38,7 +38,7 @@ export default {
       rules: {
         name: [
           {required: true, message: '请输入迭代名称', trigger: 'blur'},
-          {min: 1, max: 10, message: '名称长度在1到10个字符', trigger: "blur"}
+          {min: 1, max: 20, message: '名称长度在1到20个字符', trigger: "blur"}
         ],
         detail: [
           {required: true, message: '请输入迭代目标', trigger: 'blur'},

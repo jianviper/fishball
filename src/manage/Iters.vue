@@ -2,15 +2,21 @@
   <section>
     <el-table :data="data_iter.slice((currentPage-1)*pageSize,currentPage*pageSize)" stripe style="width: 100%"
               :cell-style="{padding:'7px 0'}">
-      <el-table-column prop="iter_id" label="ID" width="80">
+      <el-table-column prop="iter_id" label="ID" width="60">
       </el-table-column>
-      <el-table-column prop="name" label="名称" width="140">
+      <el-table-column prop="name" label="名称" sortable>
         <template slot-scope="{row,$index}">
           <el-input v-if="currentEdit==$index" v-model="row.name" @change="watch_change"></el-input>
           <span v-else>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="start_date" label="开始时间">
+      <el-table-column prop="detail" label="迭代目标">
+        <template slot-scope="{row,$index}">
+          <el-input v-if="currentEdit==$index" v-model="row.detail" @change="watch_change"></el-input>
+          <span v-else>{{ row.detail }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="start_date" label="开始时间" width="200">
         <template slot-scope="{row,$index}">
           <el-date-picker class="date_picker" v-if="currentEdit==$index" v-model="row.start_date" type="date"
                           placeholder="选择日期" value-format="yyyy-MM-dd" @change="watch_change">
@@ -18,7 +24,7 @@
           <p v-else>{{ row.start_date.split('T')[0] }}</p>
         </template>
       </el-table-column>
-      <el-table-column prop="end_date" label="结束时间">
+      <el-table-column prop="end_date" label="结束时间" width="200">
         <template slot-scope="{row,$index}">
           <el-date-picker class="date_picker" v-if="currentEdit==$index" v-model="row.end_date" type="date"
                           placeholder="选择日期" value-format="yyyy-MM-dd" @change="watch_change">
@@ -37,12 +43,6 @@
             <div v-if="row.status==0">未完成</div>
             <div v-else-if="row.status==1">完成</div>
           </div>
-        </template>
-      </el-table-column>
-      <el-table-column prop="detail" label="迭代目标">
-        <template slot-scope="{row,$index}">
-          <el-input v-if="currentEdit==$index" v-model="row.detail" @change="watch_change"></el-input>
-          <span v-else>{{ row.detail }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="number" label="鱼丸发放数" width="120">
