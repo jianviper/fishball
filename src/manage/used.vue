@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     get_used() {
-      this.$axios.get('http://192.168.105.132:8001/api/used').then((response) => {
+      this.$axios.get('/used').then((response) => {
         console.log(response);
         this.data_used = response.data;
       })

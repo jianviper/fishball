@@ -61,7 +61,7 @@ export default {
       console.log(data);
       this.$refs['used_form'].validate((valid) => {
         if (valid) {
-          this.$axios.post('http://192.168.105.132:8001/api/add_used', data).then((response) => {
+          this.$axios.post('/add_used', data).then((response) => {
             console.log(response.data);
             this.$message.success('添加成功');
             this.dialogVisible = false;
@@ -73,7 +73,7 @@ export default {
       })
     },
     get_member_info() { //获取迭代信息
-      this.$axios.get('http://192.168.105.132:8001/api/member').then((response) => {
+      this.$axios.get('/member').then((response) => {
         console.log('member_info');
         this.ops_members = [];
         response.data.map((value, index) => {

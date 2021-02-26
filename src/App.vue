@@ -4,7 +4,7 @@
       <el-header>
         <NavMenu/>
       </el-header>
-      <el-main>
+      <el-main style="padding-top: 10px">
         <router-view/>
       </el-main>
     </el-container>

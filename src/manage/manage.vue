@@ -1,6 +1,9 @@
 <template>
   <section>
-    <h1 class="hh">欢迎进入管理后台</h1>
+    <div>
+      <h1 class="hh">欢迎进入康康鱼丸管理后台</h1>
+      <span class="logout" @click="logout">退出<i class="el-icon-d-arrow-right"></i></span>
+    </div>
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick" addable>
       <el-tab-pane label="迭代管理" name="mg_iter">
         <iters ref="iters"/>
@@ -92,6 +95,19 @@ export default {
     },
     used_init() {
       this.$refs.used.get_used();
+    },
+    logout() {
+      this.$confirm('确认退出登录？', '提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: "warning"
+      }).then(() => {
+        if (localStorage.getItem('token')) {
+          localStorage.removeItem('token');
+        }
+        this.$router.push('/');
+        this.$message.info('退出登录成功');
+      })
     }
   },
   mounted() {
@@ -112,5 +128,16 @@ export default {
 .hh {
   margin: 0;
   margin-bottom: 10px;
+  display: inline-block;
+}
+
+.logout {
+  display: inline-block;
+  float: right;
+}
+
+.logout:hover {
+  cursor: pointer;
+  color: blue;
 }
 </style>

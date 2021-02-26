@@ -103,7 +103,7 @@ export default {
       console.log(index, row);
       if (this.changed) {
         if (row.name && row.start_date && row.end_date && row.detail) {
-          this.$axios.put('http://192.168.105.132:8001/api/update_iter', row).then((response) => {
+          this.$axios.put('/update_iter', row).then((response) => {
             this.currentEdit = -1;
             this.changed = false;
             this.$message.success('更新成功');
@@ -122,7 +122,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$axios.delete('http://192.168.105.132:8001/api/delete_iter/?iter_id=' + row.iter_id).then((response) => {
+        this.$axios.delete('/delete_iter/?iter_id=' + row.iter_id).then((response) => {
           this.get_iters();
           this.$message({
             type: 'success',
@@ -136,7 +136,7 @@ export default {
       });
     },
     get_iters() {
-      this.$axios.get('http://192.168.105.132:8001/api/iters').then((response) => {
+      this.$axios.get('/iters').then((response) => {
         console.log(response.data);
         this.data_iter = response.data;
       })

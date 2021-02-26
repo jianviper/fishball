@@ -57,7 +57,7 @@ export default {
       console.log(data);
       this.$refs['iter_form'].validate((valid) => {
         if (valid) {
-          this.$axios.post('http://192.168.105.132:8001/api/add_iter', data).then((response) => {
+          this.$axios.post('/add_iter', data).then((response) => {
             console.log(response.data.data);
             this.$message.success('添加成功');
             this.dialogVisible = false;

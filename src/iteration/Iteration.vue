@@ -57,7 +57,7 @@ export default {
       this.content = iter_name;
     },
     get_iter_member() {
-      this.$axios.get('http://192.168.105.132:8001/api/iter_member?iter_id=' + this.iter_id).then((response) => {
+      this.$axios.get('/iter_member?iter_id=' + this.iter_id).then((response) => {
         console.log(response.data);
         this.data_iter_member = response.data;
       })
@@ -66,7 +66,7 @@ export default {
       this.dialogTableVisible = true;
       console.log(row);
       this.$axios
-        .get('http://192.168.105.132:8001/api/iter_member_detail?iter_id=' + this.iter_id + '&member_id=' + row.member_id)
+        .get('/iter_member_detail?iter_id=' + this.iter_id + '&member_id=' + row.member_id)
         .then((response) => {
           // console.log(response.data);
           this.activities = response.data.data;

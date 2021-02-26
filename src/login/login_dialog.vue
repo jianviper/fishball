@@ -52,14 +52,13 @@ export default {
       })
     },
     login(data) {
-      console.log(data);
       this.$refs['form_data'].validate((vaild) => {
         if (vaild) {
-          this.$axios.post('http://192.168.105.132:8001/api/login', data).then((response) => {
-            console.log(response.data);
+          this.$axios.post('/login', data).then((response) => {
             if (response.data.code == 200) {
               this.$message.success('登录成功');
               this.dialogVisible = false;
+              localStorage.setItem('token',response.data.data.token);
               this.$router.push({path: '/manage'});
             } else {
               this.isShow = true;

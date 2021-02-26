@@ -81,7 +81,7 @@ export default {
       this.dialogTableVisible = true;
       this.row = row;
       console.log(row);
-      this.$axios.get('http://192.168.105.132:8001/api/iters').then((response) => {
+      this.$axios.get('/iters').then((response) => {
         console.log(response.data);
         this.iter_options = response.data;
       })
@@ -89,20 +89,20 @@ export default {
     },
     get_ballDetail(iter_id) {
       this.$axios
-        .get('http://192.168.105.132:8001/api/member_ball_detail?member_id=' + this.row.member_id + '&iter_id=' + iter_id)
+        .get('/member_ball_detail?member_id=' + this.row.member_id + '&iter_id=' + iter_id)
         .then((response) => {
           // console.log(response.data);
           this.activities = response.data.data;
         })
     },
     get_ball_usedDetail(m_id) {
-      this.$axios.get('http://192.168.105.132:8001/api/used?member_id=' + m_id).then((response) => {
+      this.$axios.get('/used?member_id=' + m_id).then((response) => {
         console.log(response);
         this.used_ball = response.data;
       })
     },
     get_member() {
-      this.$axios.get('http://192.168.105.132:8001/api/member').then((response) => {
+      this.$axios.get('/member').then((response) => {
         console.log(response.data);
         this.data_member = response.data;
       })

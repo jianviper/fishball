@@ -103,7 +103,7 @@ export default {
       this.changed = true;
     },
     get_member() {
-      this.$axios.get('http://192.168.105.132:8001/api/member').then((response) => {
+      this.$axios.get('/member').then((response) => {
         this.data_member = response.data;
       })
     },
@@ -116,7 +116,7 @@ export default {
       this.dialogTableVisible = true;
       this.row = row;
       console.log(row);
-      this.$axios.get('http://192.168.105.132:8001/api/iters').then((response) => {
+      this.$axios.get('/iters').then((response) => {
         console.log(response.data);
         this.iter_options = response.data;
       })
@@ -124,14 +124,14 @@ export default {
     },
     get_ballDetail(iter_id) {
       this.$axios
-        .get('http://192.168.105.132:8001/api/member_ball_detail?member_id=' + this.row.member_id + '&iter_id=' + iter_id)
+        .get('/member_ball_detail?member_id=' + this.row.member_id + '&iter_id=' + iter_id)
         .then((response) => {
           // console.log(response.data);
           this.activities = response.data.data;
         })
     },
     get_ball_usedDetail(m_id) {
-      this.$axios.get('http://192.168.105.132:8001/api/used?member_id=' + m_id).then((response) => {
+      this.$axios.get('/used?member_id=' + m_id).then((response) => {
         console.log(response);
         this.used_ball = response.data;
       })
@@ -144,7 +144,7 @@ export default {
       console.log(index, row, this.row);
       if (this.changed) { //有修改才提交接口
         if (row.name && row.job) {
-          this.$axios.post('http://192.168.105.132:8001/api/update_member', row).then((response) => {
+          this.$axios.post('/update_member', row).then((response) => {
             this.currentEdit = -1;
             this.$message.success('更新成功');
             this.changed = false;
@@ -162,7 +162,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$axios.delete('http://192.168.105.132:8001/api/delete_member/?member_id=' + row.member_id).then((response) => {
+        this.$axios.delete('/delete_member/?member_id=' + row.member_id).then((response) => {
           this.get_member();
           this.$message.success('删除成功');
         }).catch(() => {

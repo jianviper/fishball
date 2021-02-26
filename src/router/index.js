@@ -6,6 +6,8 @@ import iteration from '@/iteration/Iteration'
 import member from '@/member/Member'
 import manage from '@/manage/manage'
 import baidu from '@/baiduzhishu/baiduzhishu'
+import myEchart from "@/components/myEcharts"
+import login_dialog from "../login/login_dialog";
 
 Vue.use(Router)
 
@@ -13,8 +15,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'myechart',
+      component: myEchart
     },
     {
       path: '/iterations',
@@ -38,8 +40,13 @@ export default new Router({
     },
     {
       path: '/baiduzhishu',
-      name, baidu,
+      name: baidu,
       component: baidu,
+    },
+    {
+      path: '/login',
+      name: login_dialog,
+      component: login_dialog
     }
-  ]
+  ],
 })

@@ -41,11 +41,14 @@ export default {
       console.log(data);
       this.$refs['member_form'].validate((valid) => {
         if (valid) {
-          this.$axios.post('http://192.168.105.132:8001/api/add_member', data).then((response) => {
-            console.log(response.data);
-            this.$message.success('添加成功');
-            this.dialogVisible = false;
-            this.$emit('emit_member');
+          this.$axios.post('/add_member', data).then((response) => {
+            // console.log(response.data);
+            if (response.status == 200) {
+              this.$message.warning(response.data.msg);
+            } else if (response.status == 201) {
+              this.dialogVisible = false;
+              this.$emit('emit_member');
+            }
           })
         } else {
           return false;

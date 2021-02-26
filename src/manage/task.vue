@@ -2,7 +2,7 @@
   <section>
     <!--    任务列表-->
     <el-table :data="data_task.slice((currentPage-1)*pageSize,currentPage*pageSize)" style="width: 100%" stripe
-              :default-sort="{prop: 'task_date', order: 'descending'}">
+              :default-sort="{prop: 'task_date', order: 'descending'}" :cell-style="{padding: '3px 0'}">
       <el-table-column prop="task_date" label="日期" width="120" sortable>
       </el-table-column>
       <el-table-column prop="iter_name" label="迭代名称" sortable>
@@ -106,7 +106,7 @@ export default {
 
     },
     get_task() {
-      this.$axios.get('http://192.168.105.132:8001/api/task').then((response) => {
+      this.$axios.get('/task').then((response) => {
         console.log(response.data);
         this.data_task = response.data;
       })
@@ -120,7 +120,7 @@ export default {
       if (this.changed) { //有修改才提交接口
         if (row.task_detail) {
           let params = {task_id: row.task_id, task_detail: row.task_detail, target_num: row.target_num};
-          this.$axios.patch('http://192.168.105.132:8001/api/update_task', params).then((response) => {
+          this.$axios.patch('/update_task', params).then((response) => {
             this.currentEdit = -1;
             this.changed = false;
             this.$message.success('更新成功');
@@ -139,7 +139,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$axios.delete('http://192.168.105.132:8001/api/delete_task/?task_id=' + row.task_id).then((response) => {
+        this.$axios.delete('/delete_task/?task_id=' + row.task_id).then((response) => {
           this.get_task();
           this.$message({
             type: 'success',
@@ -164,8 +164,8 @@ export default {
     },
     taskComplete() { // 完成任务，点击 确定
       this.row.status = this.radio;
-      console.log(this.row);
-      this.$axios.patch('http://192.168.105.132:8001/api/complete_task', this.row).then((response) => {
+      // let params = {member: this.row.member_id, task_id: this.row.task_id, status: this.row.status, mark: this.row.mark}
+      this.$axios.post('/complete_task', this.row).then((response) => {
         // console.log(response.data.data);
         this.row.status = parseInt(this.radio);
         this.completeVisible = false;

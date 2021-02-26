@@ -68,7 +68,20 @@ export default {
       }
     },
     sign_dialog() {
-      this.$refs.login_dialog.change_dialog();
+      let token = localStorage.getItem('token');
+      if (token) {
+        this.$axios.get('user/info?token_data=' + token
+        ).then((response) => {
+          console.log(response);
+          if (response.status == 200) {
+            this.$router.push({path: '/manage'});
+          } else {
+            this.$refs.login_dialog.change_dialog();
+          }
+        })
+      } else {
+        this.$refs.login_dialog.change_dialog();
+      }
     }
   },
 }
