@@ -54,15 +54,24 @@ export default {
     login(data) {
       this.$refs['form_data'].validate((vaild) => {
         if (vaild) {
+          const loading = this.$loading({
+            lock: true,
+            text: 'Loading',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+          });
           this.$axios.post('/login', data).then((response) => {
-            if (response.data.code == 200) {
+            if (response.status == 200 && response.data.msg == '登录成功') {
               this.$message.success('登录成功');
               this.dialogVisible = false;
-              localStorage.setItem('token',response.data.data.token);
+              localStorage.setItem('token', response.data.token);
               this.$router.push({path: '/manage'});
             } else {
               this.isShow = true;
             }
+            loading.close();
+          }).catch(() => {
+            loading.close();
           })
         } else {
           return false;

@@ -26,7 +26,8 @@ export default {
       iter_name_list: [],
       iter_id_list: [],
       member_opiter: {},
-      name: ''
+      name: '',
+      loading: true,
     };
   },
   methods: {
@@ -68,6 +69,12 @@ export default {
     //设置迭代数据
     set_iter_opiter() {
       let iter_num = [];
+      const loading = this.$loading({
+        target: '.echart_iter',
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       this.$axios.get('/iters').then((response) => {
         console.log(response);
         response.data.map(item => {
@@ -113,6 +120,13 @@ export default {
             }
           ]
         };
+        loading.close();
+        const loading1 = this.$loading({
+          target: '.echart_iter_member',
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
         this.$axios.get('/iter_member?iter_id=' + this.iter_id_list[0]).then((response) => {
           let m_ball = [];
           response.data.map(item => {
@@ -120,7 +134,12 @@ export default {
           })
           console.log('mi', m_ball);
           this.set_Mball_option(m_ball, this.iter_name_list[0]);
+          loading1.close();
+        }).catch(() => {
+          loading1.close()
         })
+      }).catch(() => {
+        loading.close();
       })
     },
     //点击迭代显示详情图标
@@ -137,51 +156,61 @@ export default {
       })
     },
     set_member_opiter() {
+      const loading = this.$loading({
+        target: '.echart_member',
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       this.$axios.get('/member').then((response) => {
-        let m_name = [];
-        let m_num = [];
-        response.data.map(item => {
-          m_name.push(item.name);
-          m_num.push(item.number);
-        })
-        this.member_opiter = {
-          title: {
-            text: "成员鱼丸统计"
-          },
-          //工具提示，鼠标移上去
-          tooltip: {},
-          //图例说明
-          legend: {
-            data: '点击显示详情'
-          },
-          xAxis: {
-            type: "category",
-            data: m_name
-          },
-          yAxis: {
-            type: "value"
-          },
-          series: [
-            {
-              data: m_num,
-              type: "bar",
-              smooth: true
+          let m_name = [];
+          let m_num = [];
+          response.data.map(item => {
+            m_name.push(item.name);
+            m_num.push(item.number);
+          })
+          this.member_opiter = {
+            title: {
+              text: "成员鱼丸统计"
             },
-            {
-              data: m_num,
-              type: 'line',
-              smooth: true,
-              itemStyle: {
-                normal: {
-                  label: {
-                    show: true,
-                    formatter: '{c}'
+            //工具提示，鼠标移上去
+            tooltip: {},
+            //图例说明
+            legend: {
+              data: '点击显示详情'
+            },
+            xAxis: {
+              type: "category",
+              data: m_name
+            },
+            yAxis: {
+              type: "value"
+            },
+            series: [
+              {
+                data: m_num,
+                type: "bar",
+                smooth: true
+              },
+              {
+                data: m_num,
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                  normal: {
+                    label: {
+                      show: true,
+                      formatter: '{c}'
+                    }
                   }
                 }
               }
-            }
-          ]
+            ]
+          }
+          loading.close();
         }
+      ).catch(() => {
+        loading.close();
       })
     }
   },

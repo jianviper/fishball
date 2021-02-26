@@ -102,9 +102,17 @@ export default {
       })
     },
     get_member() {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       this.$axios.get('/member').then((response) => {
-        console.log(response.data);
         this.data_member = response.data;
+        loading.close();
+      }).catch(() => {
+        loading.close();
       })
     },
     close_dia() {

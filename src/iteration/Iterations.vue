@@ -67,11 +67,18 @@ export default {
   },
   methods: {
     get_iters() {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       this.$axios.get('/iters').then((response) => {
         console.log(response.data);
         this.data_iter = response.data;
+        loading.close();
       }).catch((error) => {
-        console.log(error);
+        loading.close();
       })
     },
     //每页条数改变时触发 选择一页显示多少行
