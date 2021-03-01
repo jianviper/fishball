@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import iters from './Iters';
+import iters from './iters';
 import add_iter from './add_iter'
 import member from './member'
 import add_member from "./add_member";
@@ -38,8 +38,7 @@ import Add_used from "./add_used";
 export default {
   name: "manage",
   components: {
-    Add_used,
-    iters, add_iter, member, add_member, task, add_task, used
+    Add_used, iters, add_iter, member, add_member, task, add_task, used
   },
   data() {
     return {
@@ -49,7 +48,6 @@ export default {
   },
   methods: {
     handleClick(tab) {
-      console.log(tab.index);
       let addbtn = document.getElementsByClassName('el-tabs__new-tab')[0];
       if (tab.index == 0) {
         addbtn.innerText = '+创建迭代';

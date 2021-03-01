@@ -137,7 +137,7 @@ export default {
     },
     get_iters() {
       this.$axios.get('/iters').then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         this.data_iter = response.data;
       })
     },
